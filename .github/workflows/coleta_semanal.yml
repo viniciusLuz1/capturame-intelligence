@@ -1,0 +1,57 @@
+name: Coleta Semanal CapturaME
+
+on:
+  schedule:
+    # Toda segunda-feira às 06:00 horário de Brasília (09:00 UTC)
+    - cron: '0 9 * * 1'
+  workflow_dispatch:
+    # Permite rodar manualmente pelo botão no GitHub
+
+jobs:
+  coletar-e-publicar:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write   # necessário para commitar o banco e o dashboard
+
+    steps:
+      - name: Checkout do repositório
+        uses: actions/checkout@v4
+
+      - name: Configurar Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+
+      - name: Instalar dependências Python
+        run: pip install -r requirements.txt
+
+      - name: Instalar Chromium (Playwright)
+        run: venv/bin/python -m playwright install chromium --with-deps || python -m playwright install chromium --with-deps
+
+      - name: Fase 2 — Atualizar lista de leilões e cotações
+        env:
+          CAPTURAME_USER: ${{ secrets.CAPTURAME_USER }}
+          CAPTURAME_PASSWORD: ${{ secrets.CAPTURAME_PASSWORD }}
+          HEADLESS: "true"
+          TIMEOUT: "30000"
+        run: python main.py --coleta
+
+      - name: Fase 3 — Coletar itens dos novos leilões
+        env:
+          CAPTURAME_USER: ${{ secrets.CAPTURAME_USER }}
+          CAPTURAME_PASSWORD: ${{ secrets.CAPTURAME_PASSWORD }}
+          HEADLESS: "true"
+          TIMEOUT: "30000"
+        run: python main.py --fase3
+
+      - name: Gerar dashboard
+        run: python scripts/gerar_dashboard.py
+
+      - name: Commitar banco de dados e dashboard
+        run: |
+          git config user.name  "CapturaME Bot"
+          git config user.email "bot@capturame-intelligence"
+          git add data/capturame.db docs/index.html
+          git diff --staged --quiet && echo "Sem mudanças." || \
+            git commit -m "coleta $(date +'%Y-%m-%d %H:%M UTC')" && git push

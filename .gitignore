@@ -1,0 +1,26 @@
+# Credenciais — NUNCA commitar
+.env
+data/auth/storage_state.json
+
+# Ambiente Python
+venv/
+__pycache__/
+*.pyc
+*.pyo
+.Python
+
+# Artefatos de execução
+screenshots/
+logs/
+data/*.db-shm
+data/*.db-wal
+data/discovery_*.json
+
+# Claude Code
+.claude/
+
+# macOS
+.DS_Store
+
+# Relatórios intermediários (o dashboard é gerado em docs/)
+reports/

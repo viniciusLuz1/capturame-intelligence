@@ -1,0 +1,1491 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CapturaME Intelligence – Dashboard</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+  <style>
+    body { background: #f8f9fa; }
+    .card-metric { border-left: 4px solid #6f42c1; }
+    .card-metric .display-5 { color: #6f42c1; font-weight: 700; }
+    th { white-space: nowrap; }
+    .table-sm td, .table-sm th { padding: .3rem .5rem; font-size: .85rem; }
+    .section-title { border-left: 3px solid #6f42c1; padding-left: .6rem; margin: 1.5rem 0 .8rem; }
+  </style>
+</head>
+<body>
+<nav class="navbar navbar-dark" style="background:#6f42c1;">
+  <div class="container-fluid">
+    <span class="navbar-brand fw-bold">⚡ CapturaME Intelligence</span>
+    <span class="text-white-50 small">Atualizado: 08/06/2026 15:43</span>
+  </div>
+</nav>
+
+<div class="container-fluid py-3">
+
+  <!-- Cards -->
+  <div class="row g-3 mb-3">
+    <div class="col-6 col-md-3">
+      <div class="card card-metric h-100 shadow-sm">
+        <div class="card-body">
+          <div class="text-muted small">Total Leilões</div>
+          <div class="display-5">2,769</div>
+        </div>
+      </div>
+    </div>
+    <div class="col-6 col-md-3">
+      <div class="card card-metric h-100 shadow-sm" style="border-color:#198754;">
+        <div class="card-body">
+          <div class="text-muted small">Em Aberto</div>
+          <div class="display-5" style="color:#198754;">75</div>
+        </div>
+      </div>
+    </div>
+    <div class="col-6 col-md-3">
+      <div class="card card-metric h-100 shadow-sm" style="border-color:#0d6efd;">
+        <div class="card-body">
+          <div class="text-muted small">Itens Coletados</div>
+          <div class="display-5" style="color:#0d6efd;">353</div>
+          <div class="text-muted small">130 leilões cobertos</div>
+        </div>
+      </div>
+    </div>
+    <div class="col-6 col-md-3">
+      <div class="card card-metric h-100 shadow-sm" style="border-color:#dc3545;">
+        <div class="card-body">
+          <div class="text-muted small">NMs Únicos</div>
+          <div class="display-5" style="color:#dc3545;">319</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row g-3">
+
+    <!-- Chart + Cidades -->
+    <div class="col-md-4">
+      <div class="card shadow-sm h-100">
+        <div class="card-body">
+          <h6 class="section-title">Leilões por Status</h6>
+          <canvas id="statusChart" height="180"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="card shadow-sm h-100">
+        <div class="card-body">
+          <h6 class="section-title">Cidades de Entrega (abertos)</h6>
+          <table class="table table-sm table-hover">
+            <thead><tr><th>Cidade</th><th>UF</th><th>Leilões</th></tr></thead>
+            <tbody><tr><td>Rio de Janeiro</td><td>RJ</td><td class='text-center'><span class='badge bg-secondary'>13</span></td></tr>
+<tr><td>Alemoa Santos</td><td>SP</td><td class='text-center'><span class='badge bg-secondary'>4</span></td></tr>
+<tr><td>Universitario Goianésia</td><td>GO</td><td class='text-center'><span class='badge bg-secondary'>4</span></td></tr>
+<tr><td>Canoas</td><td>RS</td><td class='text-center'><span class='badge bg-secondary'>3</span></td></tr>
+<tr><td>Rural Coari</td><td>AM</td><td class='text-center'><span class='badge bg-secondary'>3</span></td></tr>
+<tr><td>Cumbica Guarulhos</td><td>SP</td><td class='text-center'><span class='badge bg-secondary'>2</span></td></tr>
+<tr><td>Industrial Uberaba</td><td>MG</td><td class='text-center'><span class='badge bg-secondary'>2</span></td></tr>
+<tr><td>Riacho Aracruz</td><td>ES</td><td class='text-center'><span class='badge bg-secondary'>2</span></td></tr>
+<tr><td>São Mateus</td><td>ES</td><td class='text-center'><span class='badge bg-secondary'>2</span></td></tr>
+<tr><td>Central Catalão</td><td>GO</td><td class='text-center'><span class='badge bg-secondary'>1</span></td></tr></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- NMs recorrentes -->
+    <div class="col-md-4">
+      <div class="card shadow-sm h-100">
+        <div class="card-body">
+          <h6 class="section-title">NMs Recorrentes (reprocessos)</h6>
+          <table class="table table-sm table-hover">
+            <thead><tr><th>NM</th><th>Item</th><th>Vezes</th><th>Mín</th><th>Máx</th></tr></thead>
+            <tbody>
+            <tr>
+              <td class="font-monospace small">1965852</td>
+              <td>Camisa anti-chama (VESTIMENTA PARA PROTEÇÃO DO TRONCO) TAM: </td>
+              <td class="text-center"><span class="badge bg-danger">3x</span></td>
+              <td class="small text-success">R$ 178,00</td>
+              <td class="small text-danger">R$ 554,85</td>
+            </tr>
+
+            <tr>
+              <td class="font-monospace small">7803812</td>
+              <td>CAP - COLETE LARANJA SEM BOLSO TAM P/M/G/GG</td>
+              <td class="text-center"><span class="badge bg-danger">3x</span></td>
+              <td class="small text-success">R$ 17,10</td>
+              <td class="small text-danger">R$ 85,50</td>
+            </tr>
+
+            <tr>
+              <td class="font-monospace small">168525</td>
+              <td>"3/2 PNEUMATIC PILOT/HAND RETURN VALVE"</td>
+              <td class="text-center"><span class="badge bg-danger">2x</span></td>
+              <td class="small text-success">R$ 0,00</td>
+              <td class="small text-danger">R$ 0,00</td>
+            </tr>
+
+            <tr>
+              <td class="font-monospace small">223681</td>
+              <td>Porta agulhas P/martelete pneum ARCOMFER</td>
+              <td class="text-center"><span class="badge bg-danger">2x</span></td>
+              <td class="small text-success">R$ 708,60</td>
+              <td class="small text-danger">R$ 889,80</td>
+            </tr>
+
+            <tr>
+              <td class="font-monospace small">223772</td>
+              <td>P/martelete pneum ARCOMFER</td>
+              <td class="text-center"><span class="badge bg-danger">2x</span></td>
+              <td class="small text-success">R$ 5.700,80</td>
+              <td class="small text-danger">R$ 6.025,00</td>
+            </tr>
+
+            <tr>
+              <td class="font-monospace small">223794</td>
+              <td>Embolo P/martelete pneum ARCOMFER</td>
+              <td class="text-center"><span class="badge bg-danger">2x</span></td>
+              <td class="small text-success">R$ 1.174,70</td>
+              <td class="small text-danger">R$ 3.302,10</td>
+            </tr>
+
+            <tr>
+              <td class="font-monospace small">223796</td>
+              <td>Porca P/martelete pneum ARCOMFER</td>
+              <td class="text-center"><span class="badge bg-danger">2x</span></td>
+              <td class="small text-success">R$ 1.922,20</td>
+              <td class="small text-danger">R$ 465,00</td>
+            </tr>
+
+            <tr>
+              <td class="font-monospace small">223798</td>
+              <td>Corpo da válvula P/martelete pneum ARCOM</td>
+              <td class="text-center"><span class="badge bg-danger">2x</span></td>
+              <td class="small text-success">R$ 2.177,70</td>
+              <td class="small text-danger">R$ 2.876,25</td>
+            </tr>
+
+            <tr>
+              <td class="font-monospace small">223799</td>
+              <td>Mola P/martelete pneum ARCOMFER</td>
+              <td class="text-center"><span class="badge bg-danger">2x</span></td>
+              <td class="small text-success">R$ 127,20</td>
+              <td class="small text-danger">R$ 347,60</td>
+            </tr>
+
+            <tr>
+              <td class="font-monospace small">223800</td>
+              <td>Pistão P/martelete pneum ARCOMFER</td>
+              <td class="text-center"><span class="badge bg-danger">2x</span></td>
+              <td class="small text-success">R$ 1.008,00</td>
+              <td class="small text-danger">R$ 1.089,90</td>
+            </tr>
+
+            <tr>
+              <td class="font-monospace small">223801</td>
+              <td>P/martelete pneum ARCOMFER</td>
+              <td class="text-center"><span class="badge bg-danger">2x</span></td>
+              <td class="small text-success">R$ 242,25</td>
+              <td class="small text-danger">R$ 803,10</td>
+            </tr>
+
+            <tr>
+              <td class="font-monospace small">223802</td>
+              <td>Tubo de ligação P/martelete pneum ARCOMF</td>
+              <td class="text-center"><span class="badge bg-danger">2x</span></td>
+              <td class="small text-success">R$ 693,40</td>
+              <td class="small text-danger">R$ 757,00</td>
+            </tr>
+
+            <tr>
+              <td class="font-monospace small">223803</td>
+              <td>Parafuso P/martelete pneum ARCOMFER</td>
+              <td class="text-center"><span class="badge bg-danger">2x</span></td>
+              <td class="small text-success">R$ 138,60</td>
+              <td class="small text-danger">R$ 41,20</td>
+            </tr>
+
+            <tr>
+              <td class="font-monospace small">225503</td>
+              <td>Agulha de aço P/martelete pneum ARCOMFER</td>
+              <td class="text-center"><span class="badge bg-danger">2x</span></td>
+              <td class="small text-success">R$ 1.563,00</td>
+              <td class="small text-danger">R$ 2.904,00</td>
+            </tr>
+
+            <tr>
+              <td class="font-monospace small">227193</td>
+              <td>Bucha P/martelete pneum ARCOMFER</td>
+              <td class="text-center"><span class="badge bg-danger">2x</span></td>
+              <td class="small text-success">R$ 241,92</td>
+              <td class="small text-danger">R$ 263,50</td>
+            </tr>
+
+            <tr>
+              <td class="font-monospace small">227233</td>
+              <td>Martelo P/martelete pneum ARCOMFER</td>
+              <td class="text-center"><span class="badge bg-danger">2x</span></td>
+              <td class="small text-success">R$ 1.560,00</td>
+              <td class="small text-danger">R$ 1.974,30</td>
+            </tr>
+
+            <tr>
+              <td class="font-monospace small">227257</td>
+              <td>Punho P/martelete pneum ARCOMFER</td>
+              <td class="text-center"><span class="badge bg-danger">2x</span></td>
+              <td class="small text-success">R$ 1.362,60</td>
+              <td class="small text-danger">R$ 351,20</td>
+            </tr>
+
+            <tr>
+              <td class="font-monospace small">227258</td>
+              <td>Alavanca P/martelete pneum ARCOMFER</td>
+              <td class="text-center"><span class="badge bg-danger">2x</span></td>
+              <td class="small text-success">R$ 1.095,00</td>
+              <td class="small text-danger">R$ 472,35</td>
+            </tr>
+
+            <tr>
+              <td class="font-monospace small">233785</td>
+              <td>Martelete pneum.</td>
+              <td class="text-center"><span class="badge bg-danger">2x</span></td>
+              <td class="small text-success">R$ 4.662,04</td>
+              <td class="small text-danger">R$ 5.748,00</td>
+            </tr>
+
+            <tr>
+              <td class="font-monospace small">2687836</td>
+              <td>Calça anti-chamas (NR10) TAM: GG</td>
+              <td class="text-center"><span class="badge bg-danger">2x</span></td>
+              <td class="small text-success">R$ 369,90</td>
+              <td class="small text-danger">R$ 554,85</td>
+            </tr></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Leilões abertos -->
+    <div class="col-12">
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <h6 class="section-title">Leilões Abertos (75)</h6>
+          <div class="table-responsive">
+            <table class="table table-sm table-hover table-striped">
+              <thead class="table-light">
+                <tr><th>ID</th><th>Título</th><th>Expira</th><th>Entrega</th><th>Itens</th><th></th></tr>
+              </thead>
+              <tbody>
+            <tr>
+              <td class="text-muted small">50885</td>
+              <td>10902341 - REPROCESSO</td>
+              <td class="small">01/06/2026 02:43</td>
+              <td class="small">São Mateus/ES</td>
+              <td class="text-center"><span class="badge bg-primary">1</span></td>
+              <td><span class="badge bg-warning text-dark">reabre 2026-06-01</span></td>
+            </tr>
+
+            <tr>
+              <td class="text-muted small">51226</td>
+              <td>RC 0030</td>
+              <td class="small">03/06/2026 13:15</td>
+              <td class="small">Central Catalão/GO</td>
+              <td class="text-center"><span class="badge bg-primary">10</span></td>
+              <td><span class="badge bg-warning text-dark">reabre 2026-06-03</span></td>
+            </tr>
+
+            <tr>
+              <td class="text-muted small">43326</td>
+              <td>Teste 02/10</td>
+              <td class="small">06/10/2025 10:00</td>
+              <td class="small">—</td>
+              <td class="text-center"><span class="badge bg-primary">1</span></td>
+              <td><span class="badge bg-warning text-dark">reabre 2025-10-06</span></td>
+            </tr>
+
+            <tr>
+              <td class="text-muted small">50395</td>
+              <td>10901216 - REPROCESSO - REPROCESSO - REPROCESSO - REPROCESSO - REPROCESSO</td>
+              <td class="small">08/06/2026 10:45</td>
+              <td class="small">—</td>
+              <td class="text-center"><span class="badge bg-primary">1</span></td>
+              <td><span class="badge bg-warning text-dark">reabre 2026-06-08</span></td>
+            </tr>
+
+            <tr>
+              <td class="text-muted small">50685</td>
+              <td>10901860 - REPROCESSO - REPROCESSO - REPROCESSO</td>
+              <td class="small">08/06/2026 10:45</td>
+              <td class="small">Rio de Janeiro/RJ</td>
+              <td class="text-center"><span class="badge bg-primary">3</span></td>
+              <td><span class="badge bg-warning text-dark">reabre 2026-06-08</span></td>
+            </tr>
+
+            <tr>
+              <td class="text-muted small">50691</td>
+              <td>10902470 - REPROCESSO - REPROCESSO - REPROCESSO</td>
+              <td class="small">08/06/2026 10:45</td>
+              <td class="small">Riacho Aracruz/ES</td>
+              <td class="text-center"><span class="badge bg-primary">2</span></td>
+              <td><span class="badge bg-warning text-dark">reabre 2026-06-08</span></td>
+            </tr>
+
+            <tr>
+              <td class="text-muted small">50737</td>
+              <td>10902472 - REPROCESSO - REPROCESSO - REPROCESSO</td>
+              <td class="small">08/06/2026 11:40</td>
+              <td class="small">Rural Coari/AM</td>
+              <td class="text-center"><span class="badge bg-primary">1</span></td>
+              <td><span class="badge bg-warning text-dark">reabre 2026-06-08</span></td>
+            </tr>
+
+            <tr>
+              <td class="text-muted small">50785</td>
+              <td>10885886 - REPROCESSO - REPROCESSO - REPROCESSO</td>
+              <td class="small">08/06/2026 11:40</td>
+              <td class="small">Rio de Janeiro/RJ</td>
+              <td class="text-center"><span class="badge bg-primary">1</span></td>
+              <td><span class="badge bg-warning text-dark">reabre 2026-06-08</span></td>
+            </tr>
+
+            <tr>
+              <td class="text-muted small">50918</td>
+              <td>10903325 - REPROCESSO - REPROCESSO</td>
+              <td class="small">08/06/2026 11:40</td>
+              <td class="small">—</td>
+              <td class="text-center"><span class="badge bg-primary">1</span></td>
+              <td><span class="badge bg-warning text-dark">reabre 2026-06-08</span></td>
+            </tr>
+
+            <tr>
+              <td class="text-muted small">50961</td>
+              <td>10902288 - REPROCESSO - REPROCESSO</td>
+              <td class="small">08/06/2026 11:40</td>
+              <td class="small">São Mateus/ES</td>
+              <td class="text-center"><span class="badge bg-primary">1</span></td>
+              <td><span class="badge bg-warning text-dark">reabre 2026-06-08</span></td>
+            </tr>
+
+            <tr>
+              <td class="text-muted small">50996</td>
+              <td>10902467 - REPROCESSO - REPROCESSO</td>
+              <td class="small">08/06/2026 11:40</td>
+              <td class="small">Riacho Aracruz/ES</td>
+              <td class="text-center"><span class="badge bg-primary">1</span></td>
+              <td><span class="badge bg-warning text-dark">reabre 2026-06-08</span></td>
+            </tr>
+
+            <tr>
+              <td class="text-muted small">51193</td>
+              <td>10903445 - EMERGENCIAL - REPROCESSO - REPROCESSO - REPROCESSO</td>
+              <td class="small">08/06/2026 12:45</td>
+              <td class="small">—</td>
+              <td class="text-center"><span class="badge bg-primary">3</span></td>
+              <td><span class="badge bg-warning text-dark">reabre 2026-06-08</span></td>
+            </tr>
+
+            <tr>
+              <td class="text-muted small">50986</td>
+              <td>10899943 - REPROCESSO</td>
+              <td class="small">08/06/2026 13:45</td>
+              <td class="small">—</td>
+              <td class="text-center"><span class="badge bg-primary">2</span></td>
+              <td><span class="badge bg-warning text-dark">reabre 2026-06-08</span></td>
+            </tr>
+
+            <tr>
+              <td class="text-muted small">50988</td>
+              <td>10903475 - REPROCESSO</td>
+              <td class="small">08/06/2026 13:45</td>
+              <td class="small">—</td>
+              <td class="text-center"><span class="badge bg-primary">1</span></td>
+              <td><span class="badge bg-warning text-dark">reabre 2026-06-08</span></td>
+            </tr>
+
+            <tr>
+              <td class="text-muted small">51243</td>
+              <td>10903943</td>
+              <td class="small">08/06/2026 13:45</td>
+              <td class="small">Canoas/RS</td>
+              <td class="text-center"><span class="badge bg-primary">1</span></td>
+              <td><span class="badge bg-warning text-dark">reabre 2026-06-08</span></td>
+            </tr>
+
+            <tr>
+              <td class="text-muted small">50985</td>
+              <td>10899859</td>
+              <td class="small">08/06/2026 13:48</td>
+              <td class="small">Rio de Janeiro/RJ</td>
+              <td class="text-center"><span class="badge bg-primary">22</span></td>
+              <td><span class="badge bg-warning text-dark">reabre 2026-06-08</span></td>
+            </tr>
+
+            <tr>
+              <td class="text-muted small">51181</td>
+              <td>10895316 - REPROCESSO</td>
+              <td class="small">08/06/2026 14:45</td>
+              <td class="small">Rio de Janeiro/RJ</td>
+              <td class="text-center"><span class="badge bg-primary">1</span></td>
+              <td><span class="badge bg-warning text-dark">reabre 2026-06-08</span></td>
+            </tr>
+
+            <tr>
+              <td class="text-muted small">51184</td>
+              <td>10903309_10903321 - REPROCESSO</td>
+              <td class="small">08/06/2026 14:45</td>
+              <td class="small">—</td>
+              <td class="text-center"><span class="badge bg-primary">3</span></td>
+              <td><span class="badge bg-warning text-dark">reabre 2026-06-08</span></td>
+            </tr>
+
+            <tr>
+              <td class="text-muted small">51185</td>
+              <td>10903472 - REPROCESSO</td>
+              <td class="small">08/06/2026 14:45</td>
+              <td class="small">—</td>
+              <td class="text-center"><span class="badge bg-primary">1</span></td>
+              <td><span class="badge bg-warning text-dark">reabre 2026-06-08</span></td>
+            </tr>
+
+            <tr>
+              <td class="text-muted small">51188</td>
+              <td>10903828 - REPROCESSO</td>
+              <td class="small">08/06/2026 14:45</td>
+              <td class="small">Canoas/RS</td>
+              <td class="text-center"><span class="badge bg-primary">1</span></td>
+              <td><span class="badge bg-warning text-dark">reabre 2026-06-08</span></td>
+            </tr>
+
+            <tr>
+              <td class="text-muted small">51189</td>
+              <td>10903833 - REPROCESSO</td>
+              <td class="small">08/06/2026 14:45</td>
+              <td class="small">Industrial Uberaba/MG</td>
+              <td class="text-center"><span class="badge bg-primary">1</span></td>
+              <td><span class="badge bg-warning text-dark">reabre 2026-06-08</span></td>
+            </tr>
+
+            <tr>
+              <td class="text-muted small">51191</td>
+              <td>10897897 - REPROCESSO</td>
+              <td class="small">08/06/2026 14:45</td>
+              <td class="small">—</td>
+              <td class="text-center"><span class="badge bg-primary">7</span></td>
+              <td><span class="badge bg-warning text-dark">reabre 2026-06-08</span></td>
+            </tr>
+
+            <tr>
+              <td class="text-muted small">51279</td>
+              <td>10904609</td>
+              <td class="small">08/06/2026 14:46</td>
+              <td class="small">—</td>
+              <td class="text-center"><span class="badge bg-primary">1</span></td>
+              <td><span class="badge bg-warning text-dark">reabre 2026-06-08</span></td>
+            </tr>
+
+            <tr>
+              <td class="text-muted small">50974</td>
+              <td>10903358 - REPROCESSO - REPROCESSO</td>
+              <td class="small">08/06/2026 15:00</td>
+              <td class="small">—</td>
+              <td class="text-center"><span class="badge bg-primary">1</span></td>
+              <td><span class="badge bg-warning text-dark">reabre 2026-06-08</span></td>
+            </tr>
+
+            <tr>
+              <td class="text-muted small">50975</td>
+              <td>10903359 - REPROCESSO - REPROCESSO</td>
+              <td class="small">08/06/2026 15:05</td>
+              <td class="small">—</td>
+              <td class="text-center"><span class="badge bg-primary">1</span></td>
+              <td><span class="badge bg-warning text-dark">reabre 2026-06-08</span></td>
+            </tr>
+
+            <tr>
+              <td class="text-muted small">43318</td>
+              <td>RM 001129</td>
+              <td class="small">08/10/2025 15:45</td>
+              <td class="small">—</td>
+              <td class="text-center"><span class="badge bg-primary">5</span></td>
+              <td><span class="badge bg-warning text-dark">reabre 2025-10-08</span></td>
+            </tr>
+
+            <tr>
+              <td class="text-muted small">50556</td>
+              <td>10902337 - REPROCESSO - REPROCESSO - REPROCESSO</td>
+              <td class="small">09/06/2026 10:00</td>
+              <td class="small">Rio de Janeiro/RJ</td>
+              <td class="text-center"><span class="badge bg-primary">1</span></td>
+              <td><span class="badge bg-warning text-dark">reabre 2026-06-09</span></td>
+            </tr>
+
+            <tr>
+              <td class="text-muted small">51473</td>
+              <td>10895851</td>
+              <td class="small">09/06/2026 13:00</td>
+              <td class="small">Rio de Janeiro/RJ</td>
+              <td class="text-center"><span class="badge bg-primary">1</span></td>
+              <td><span class="badge bg-warning text-dark">reabre 2026-06-09</span></td>
+            </tr>
+
+            <tr>
+              <td class="text-muted small">50920</td>
+              <td>10903376 - REPROCESSO - REPROCESSO - REPROCESSO</td>
+              <td class="small">09/06/2026 14:00</td>
+              <td class="small">—</td>
+              <td class="text-center"><span class="badge bg-primary">4</span></td>
+              <td><span class="badge bg-warning text-dark">reabre 2026-06-09</span></td>
+            </tr>
+
+            <tr>
+              <td class="text-muted small">50921</td>
+              <td>10891221 - REPROCESSO</td>
+              <td class="small">09/06/2026 14:00</td>
+              <td class="small">Rio de Janeiro/RJ</td>
+              <td class="text-center"><span class="badge bg-primary">4</span></td>
+              <td><span class="badge bg-warning text-dark">reabre 2026-06-09</span></td>
+            </tr>
+
+            <tr>
+              <td class="text-muted small">50955</td>
+              <td>10900056 - REPROCESSO - REPROCESSO - REPROCESSO</td>
+              <td class="small">09/06/2026 14:00</td>
+              <td class="small">—</td>
+              <td class="text-center"><span class="badge bg-primary">2</span></td>
+              <td><span class="badge bg-warning text-dark">reabre 2026-06-09</span></td>
+            </tr>
+
+            <tr>
+              <td class="text-muted small">51021</td>
+              <td>10903771 - REPROCESSO - REPROCESSO</td>
+              <td class="small">09/06/2026 14:00</td>
+              <td class="small">—</td>
+              <td class="text-center"><span class="badge bg-primary">1</span></td>
+              <td><span class="badge bg-warning text-dark">reabre 2026-06-09</span></td>
+            </tr>
+
+            <tr>
+              <td class="text-muted small">51234</td>
+              <td>10902780 10902781 10902791 10902792 10902793 - REPROCESSO</td>
+              <td class="small">09/06/2026 14:00</td>
+              <td class="small">—</td>
+              <td class="text-center"><span class="badge bg-primary">5</span></td>
+              <td><span class="badge bg-warning text-dark">reabre 2026-06-09</span></td>
+            </tr>
+
+            <tr>
+              <td class="text-muted small">51235</td>
+              <td>10903682 - REPROCESSO</td>
+              <td class="small">09/06/2026 14:00</td>
+              <td class="small">Canoas/RS</td>
+              <td class="text-center"><span class="badge bg-primary">1</span></td>
+              <td><span class="badge bg-warning text-dark">reabre 2026-06-09</span></td>
+            </tr>
+
+            <tr>
+              <td class="text-muted small">51050</td>
+              <td>10902768 - REPROCESSO</td>
+              <td class="small">09/06/2026 15:20</td>
+              <td class="small">Cumbica Guarulhos/SP</td>
+              <td class="text-center"><span class="badge bg-primary">1</span></td>
+              <td><span class="badge bg-warning text-dark">reabre 2026-06-09</span></td>
+            </tr>
+
+            <tr>
+              <td class="text-muted small">51041</td>
+              <td>10901859 - REPROCESSO</td>
+              <td class="small">09/06/2026 15:50</td>
+              <td class="small">—</td>
+              <td class="text-center"><span class="badge bg-primary">1</span></td>
+              <td><span class="badge bg-warning text-dark">reabre 2026-06-09</span></td>
+            </tr>
+
+            <tr>
+              <td class="text-muted small">51287</td>
+              <td>10901314 - EMERGENCIAL - REPROCESSO</td>
+              <td class="small">10/06/2026 08:00</td>
+              <td class="small">Rio de Janeiro/RJ</td>
+              <td class="text-center"><span class="badge bg-primary">4</span></td>
+              <td><span class="badge bg-warning text-dark">reabre 2026-06-10</span></td>
+            </tr>
+
+            <tr>
+              <td class="text-muted small">50939</td>
+              <td>10883280 - REPROCESSO - REPROCESSO - REPROCESSO - REPROCESSO - REPROCESSO</td>
+              <td class="small">10/06/2026 09:00</td>
+              <td class="small">Alemoa Santos/SP</td>
+              <td class="text-center"><span class="badge bg-primary">1</span></td>
+              <td><span class="badge bg-warning text-dark">reabre 2026-06-10</span></td>
+            </tr>
+
+            <tr>
+              <td class="text-muted small">50693</td>
+              <td>10902476 - REPROCESSO - REPROCESSO - REPROCESSO</td>
+              <td class="small">10/06/2026 10:00</td>
+              <td class="small">Rural Coari/AM</td>
+              <td class="text-center"><span class="badge bg-primary">1</span></td>
+              <td><span class="badge bg-warning text-dark">reabre 2026-06-10</span></td>
+            </tr>
+
+            <tr>
+              <td class="text-muted small">50736</td>
+              <td>10902469 - REPROCESSO - REPROCESSO - REPROCESSO</td>
+              <td class="small">10/06/2026 10:00</td>
+              <td class="small">Rural Coari/AM</td>
+              <td class="text-center"><span class="badge bg-primary">1</span></td>
+              <td><span class="badge bg-warning text-dark">reabre 2026-06-10</span></td>
+            </tr>
+
+            <tr>
+              <td class="text-muted small">50790</td>
+              <td>10895173 - REPROCESSO - REPROCESSO - REPROCESSO</td>
+              <td class="small">10/06/2026 10:00</td>
+              <td class="small">Rio de Janeiro/RJ</td>
+              <td class="text-center"><span class="badge bg-primary">1</span></td>
+              <td><span class="badge bg-warning text-dark">reabre 2026-06-10</span></td>
+            </tr>
+
+            <tr>
+              <td class="text-muted small">50741</td>
+              <td>10902693 - REPROCESSO - REPROCESSO - REPROCESSO</td>
+              <td class="small">10/06/2026 10:15</td>
+              <td class="small">Cumbica Guarulhos/SP</td>
+              <td class="text-center"><span class="badge bg-primary">1</span></td>
+              <td><span class="badge bg-warning text-dark">reabre 2026-06-10</span></td>
+            </tr>
+
+            <tr>
+              <td class="text-muted small">50792</td>
+              <td>10898494 - REPROCESSO - REPROCESSO - REPROCESSO</td>
+              <td class="small">10/06/2026 10:15</td>
+              <td class="small">Rio de Janeiro/RJ</td>
+              <td class="text-center"><span class="badge bg-primary">3</span></td>
+              <td><span class="badge bg-warning text-dark">reabre 2026-06-10</span></td>
+            </tr>
+
+            <tr>
+              <td class="text-muted small">50795</td>
+              <td>10900801 - REPROCESSO - REPROCESSO - REPROCESSO</td>
+              <td class="small">10/06/2026 10:15</td>
+              <td class="small">—</td>
+              <td class="text-center"><span class="badge bg-primary">3</span></td>
+              <td><span class="badge bg-warning text-dark">reabre 2026-06-10</span></td>
+            </tr>
+
+            <tr>
+              <td class="text-muted small">50813</td>
+              <td>10902611 - REPROCESSO - REPROCESSO</td>
+              <td class="small">10/06/2026 10:15</td>
+              <td class="small">Alemoa Santos/SP</td>
+              <td class="text-center"><span class="badge bg-primary">1</span></td>
+              <td><span class="badge bg-warning text-dark">reabre 2026-06-10</span></td>
+            </tr>
+
+            <tr>
+              <td class="text-muted small">51093</td>
+              <td>10902494 - REPROCESSO - REPROCESSO</td>
+              <td class="small">10/06/2026 10:15</td>
+              <td class="small">Industrial Uberaba/MG</td>
+              <td class="text-center"><span class="badge bg-primary">2</span></td>
+              <td><span class="badge bg-warning text-dark">reabre 2026-06-10</span></td>
+            </tr>
+
+            <tr>
+              <td class="text-muted small">51071</td>
+              <td>10902028 - REPROCESSO - REPROCESSO</td>
+              <td class="small">10/06/2026 10:20</td>
+              <td class="small">—</td>
+              <td class="text-center"><span class="badge bg-primary">1</span></td>
+              <td><span class="badge bg-warning text-dark">reabre 2026-06-10</span></td>
+            </tr>
+
+            <tr>
+              <td class="text-muted small">51110</td>
+              <td>10884808 - REPROCESSO - REPROCESSO</td>
+              <td class="small">10/06/2026 10:20</td>
+              <td class="small">Rio de Janeiro/RJ</td>
+              <td class="text-center"><span class="badge bg-primary">1</span></td>
+              <td><span class="badge bg-warning text-dark">reabre 2026-06-10</span></td>
+            </tr>
+
+            <tr>
+              <td class="text-muted small">51119</td>
+              <td>10900938 - REPROCESSO - REPROCESSO</td>
+              <td class="small">10/06/2026 10:20</td>
+              <td class="small">—</td>
+              <td class="text-center"><span class="badge bg-primary">1</span></td>
+              <td><span class="badge bg-warning text-dark">reabre 2026-06-10</span></td>
+            </tr>
+
+            <tr>
+              <td class="text-muted small">51131</td>
+              <td>10902090 - REPROCESSO</td>
+              <td class="small">10/06/2026 13:00</td>
+              <td class="small">—</td>
+              <td class="text-center"><span class="badge bg-primary">1</span></td>
+              <td><span class="badge bg-warning text-dark">reabre 2026-06-10</span></td>
+            </tr>
+
+            <tr>
+              <td class="text-muted small">51039</td>
+              <td>10903129 - REPROCESSO</td>
+              <td class="small">10/06/2026 13:28</td>
+              <td class="small">—</td>
+              <td class="text-center"><span class="badge bg-primary">2</span></td>
+              <td><span class="badge bg-warning text-dark">reabre 2026-06-10</span></td>
+            </tr>
+
+            <tr>
+              <td class="text-muted small">51028</td>
+              <td>10903139 - REPROCESSO</td>
+              <td class="small">10/06/2026 14:00</td>
+              <td class="small">—</td>
+              <td class="text-center"><span class="badge bg-primary">3</span></td>
+              <td><span class="badge bg-warning text-dark">reabre 2026-06-10</span></td>
+            </tr>
+
+            <tr>
+              <td class="text-muted small">43399</td>
+              <td>Teste Solicitações</td>
+              <td class="small">10/10/2025 10:00</td>
+              <td class="small">—</td>
+              <td class="text-center"><span class="badge bg-primary">2</span></td>
+              <td><span class="badge bg-warning text-dark">reabre 2025-10-10</span></td>
+            </tr>
+
+            <tr>
+              <td class="text-muted small">51032</td>
+              <td>10895480 - REPROCESSO</td>
+              <td class="small">11/06/2026 13:00</td>
+              <td class="small">Rio de Janeiro/RJ</td>
+              <td class="text-center"><span class="badge bg-primary">6</span></td>
+              <td><span class="badge bg-warning text-dark">reabre 2026-06-11</span></td>
+            </tr>
+
+            <tr>
+              <td class="text-muted small">51126</td>
+              <td>10900324 - REPROCESSO</td>
+              <td class="small">11/06/2026 13:00</td>
+              <td class="small">Rio de Janeiro/RJ</td>
+              <td class="text-center"><span class="badge bg-primary">1</span></td>
+              <td><span class="badge bg-warning text-dark">reabre 2026-06-11</span></td>
+            </tr>
+
+            <tr>
+              <td class="text-muted small">39290</td>
+              <td>Aquisição de equipamentos de segurança para cursos técnicos do SENAC</td>
+              <td class="small">11/07/2025 14:45</td>
+              <td class="small">—</td>
+              <td class="text-center"><span class="badge bg-primary">15</span></td>
+              <td><span class="badge bg-warning text-dark">reabre 2025-07-11</span></td>
+            </tr>
+
+            <tr>
+              <td class="text-muted small">44206</td>
+              <td>10881911 - REPROCESSO</td>
+              <td class="small">13/11/2025 16:15</td>
+              <td class="small">—</td>
+              <td class="text-center"><span class="badge bg-primary">5</span></td>
+              <td><span class="badge bg-warning text-dark">reabre 2025-11-13</span></td>
+            </tr>
+
+            <tr>
+              <td class="text-muted small">1224</td>
+              <td>Compra 01</td>
+              <td class="small">14/03/2023 14:37</td>
+              <td class="small">—</td>
+              <td class="text-center"><span class="badge bg-primary">1</span></td>
+              <td><span class="badge bg-warning text-dark">reabre 2023-03-14</span></td>
+            </tr>
+
+            <tr>
+              <td class="text-muted small">18715</td>
+              <td>RC 10816392</td>
+              <td class="small">14/03/2024 09:20</td>
+              <td class="small">—</td>
+              <td class="text-center"><span class="badge bg-primary">1</span></td>
+              <td><span class="badge bg-warning text-dark">reabre 2024-03-14</span></td>
+            </tr>
+
+            <tr>
+              <td class="text-muted small">39120</td>
+              <td>10867785 - REPROCESSO - REPROCESSO - REPROCESSO</td>
+              <td class="small">14/08/2025 13:45</td>
+              <td class="small">Alemoa Santos/SP</td>
+              <td class="text-center"><span class="badge bg-primary">3</span></td>
+              <td><span class="badge bg-warning text-dark">reabre 2025-08-14</span></td>
+            </tr>
+
+            <tr>
+              <td class="text-muted small">36585</td>
+              <td>RC 10850275 - REPROCESSO - REPROCESSO</td>
+              <td class="small">15/05/2025 13:45</td>
+              <td class="small">Alemoa Santos/SP</td>
+              <td class="text-center"><span class="badge bg-primary">1</span></td>
+              <td><span class="badge bg-warning text-dark">reabre 2025-05-15</span></td>
+            </tr>
+
+            <tr>
+              <td class="text-muted small">43422</td>
+              <td>10880642 - REPROCESSO</td>
+              <td class="small">15/10/2025 12:45</td>
+              <td class="small">—</td>
+              <td class="text-center"><span class="badge bg-primary">1</span></td>
+              <td><span class="badge bg-warning text-dark">reabre 2025-10-15</span></td>
+            </tr>
+
+            <tr>
+              <td class="text-muted small">43314</td>
+              <td>RM 001128 - REPROCESSO</td>
+              <td class="small">15/10/2025 17:45</td>
+              <td class="small">—</td>
+              <td class="text-center"><span class="badge bg-primary">1</span></td>
+              <td><span class="badge bg-warning text-dark">reabre 2025-10-15</span></td>
+            </tr>
+
+            <tr>
+              <td class="text-muted small">43316</td>
+              <td>RM 001130 - REPROCESSO</td>
+              <td class="small">15/10/2025 17:45</td>
+              <td class="small">—</td>
+              <td class="text-center"><span class="badge bg-primary">6</span></td>
+              <td><span class="badge bg-warning text-dark">reabre 2025-10-15</span></td>
+            </tr>
+
+            <tr>
+              <td class="text-muted small">30906</td>
+              <td>10843663</td>
+              <td class="small">17/12/2024 12:17</td>
+              <td class="small">—</td>
+              <td class="text-center"><span class="badge bg-primary">1</span></td>
+              <td><span class="badge bg-warning text-dark">reabre 2024-12-17</span></td>
+            </tr>
+
+            <tr>
+              <td class="text-muted small">50036</td>
+              <td>10901230 - EMERGENCIAL - REPROCESSO</td>
+              <td class="small">19/05/2026 09:45</td>
+              <td class="small">—</td>
+              <td class="text-center"><span class="badge bg-primary">2</span></td>
+              <td><span class="badge bg-warning text-dark">reabre 2026-05-19</span></td>
+            </tr>
+
+            <tr>
+              <td class="text-muted small">47833</td>
+              <td>10894715 - REPROCESSO</td>
+              <td class="small">20/03/2026 13:45</td>
+              <td class="small">—</td>
+              <td class="text-center"><span class="badge bg-primary">1</span></td>
+              <td><span class="badge bg-warning text-dark">reabre 2026-03-20</span></td>
+            </tr>
+
+            <tr>
+              <td class="text-muted small">43535</td>
+              <td>RM 000008 - EUCALIPTO E ARAME - REPROCESSO</td>
+              <td class="small">20/10/2025 16:55</td>
+              <td class="small">—</td>
+              <td class="text-center"><span class="badge bg-primary">6</span></td>
+              <td><span class="badge bg-warning text-dark">reabre 2025-10-20</span></td>
+            </tr>
+
+            <tr>
+              <td class="text-muted small">50704</td>
+              <td>10899045 Reprocesso reprocesso item 10</td>
+              <td class="small">21/05/2026 09:45</td>
+              <td class="small">—</td>
+              <td class="text-center"><span class="badge bg-primary">1</span></td>
+              <td><span class="badge bg-warning text-dark">reabre 2026-05-21</span></td>
+            </tr>
+
+            <tr>
+              <td class="text-muted small">49378</td>
+              <td>RC 0002 - Barro Alto</td>
+              <td class="small">22/04/2026 17:05</td>
+              <td class="small">Universitario Goianésia/GO</td>
+              <td class="text-center"><span class="badge bg-primary">5</span></td>
+              <td><span class="badge bg-warning text-dark">reabre 2026-04-22</span></td>
+            </tr>
+
+            <tr>
+              <td class="text-muted small">50638</td>
+              <td>RC 004 - Barro Alto</td>
+              <td class="small">22/05/2026 18:45</td>
+              <td class="small">Universitario Goianésia/GO</td>
+              <td class="text-center"><span class="badge bg-primary">8</span></td>
+              <td><span class="badge bg-warning text-dark">reabre 2026-05-22</span></td>
+            </tr>
+
+            <tr>
+              <td class="text-muted small">46660</td>
+              <td>10890856 - REPROCESSO - REPROCESSO - REPROCESSO - REPROCESSO</td>
+              <td class="small">24/03/2026 16:45</td>
+              <td class="small">—</td>
+              <td class="text-center"><span class="badge bg-primary">1</span></td>
+              <td><span class="badge bg-warning text-dark">reabre 2026-03-24</span></td>
+            </tr>
+
+            <tr>
+              <td class="text-muted small">49552</td>
+              <td>RC 0001 - Niquelândia</td>
+              <td class="small">24/04/2026 18:45</td>
+              <td class="small">Universitario Goianésia/GO</td>
+              <td class="text-center"><span class="badge bg-primary">3</span></td>
+              <td><span class="badge bg-warning text-dark">reabre 2026-04-24</span></td>
+            </tr>
+
+            <tr>
+              <td class="text-muted small">50903</td>
+              <td>RC 0005 - Barro Alto/Niquelândia</td>
+              <td class="small">27/05/2026 18:45</td>
+              <td class="small">Universitario Goianésia/GO</td>
+              <td class="text-center"><span class="badge bg-primary">26</span></td>
+              <td><span class="badge bg-warning text-dark">reabre 2026-05-27</span></td>
+            </tr>
+
+            <tr>
+              <td class="text-muted small">45670</td>
+              <td>10884593 - REPROCESSO</td>
+              <td class="small">30/12/2025 10:45</td>
+              <td class="small">—</td>
+              <td class="text-center"><span class="badge bg-primary">1</span></td>
+              <td><span class="badge bg-warning text-dark">reabre 2025-12-30</span></td>
+            </tr></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Últimos itens -->
+    <div class="col-12">
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <h6 class="section-title">Itens dos Leilões Abertos (últimos 50)</h6>
+          <div class="table-responsive">
+            <table class="table table-sm table-hover">
+              <thead class="table-light">
+                <tr><th>Leilão</th><th>NM</th><th>Nome</th><th>Qtd</th><th>Un</th><th>Marca</th><th>Valor Est.</th></tr>
+              </thead>
+              <tbody>
+            <tr>
+              <td class="small text-muted">10895851</td>
+              <td class="font-monospace small">449770</td>
+              <td>Óculos de segur. fotocromática tam.52</td>
+              <td class="text-center">1</td>
+              <td class="text-center">UN</td>
+              <td class="small">OMG</td>
+              <td class="small text-success fw-bold">R$ 624,00</td>
+            </tr>
+
+            <tr>
+              <td class="small text-muted">10901314 - EMERGENCIAL - REPRO</td>
+              <td class="font-monospace small">610649</td>
+              <td>Cabo de Amarração;220m</td>
+              <td class="text-center">2</td>
+              <td class="text-center">UN</td>
+              <td class="small">—</td>
+              <td class="small text-success fw-bold">R$ 107.341,94</td>
+            </tr>
+
+            <tr>
+              <td class="small text-muted">10901314 - EMERGENCIAL - REPRO</td>
+              <td class="font-monospace small">550028</td>
+              <td>Amostrador por gotejamento p/tub. 6"</td>
+              <td class="text-center">20</td>
+              <td class="text-center">UN</td>
+              <td class="small">MARTECHNICMARTECHNIC</td>
+              <td class="small text-success fw-bold">R$ 356.000,00</td>
+            </tr>
+
+            <tr>
+              <td class="small text-muted">10901314 - EMERGENCIAL - REPRO</td>
+              <td class="font-monospace small">560273</td>
+              <td>Amostrador por gotejamento p/tub. 4"</td>
+              <td class="text-center">10</td>
+              <td class="text-center">UN</td>
+              <td class="small">MARTECHNICMARTECHNIC</td>
+              <td class="small text-success fw-bold">R$ 162.000,00</td>
+            </tr>
+
+            <tr>
+              <td class="small text-muted">10901314 - EMERGENCIAL - REPRO</td>
+              <td class="font-monospace small">613435</td>
+              <td>CABO PP TRANC.52MM BRANCA</td>
+              <td class="text-center">12</td>
+              <td class="text-center">UN</td>
+              <td class="small">PLASMODIA CABOS E CORDAS</td>
+              <td class="small text-success fw-bold">R$ 124.248,00</td>
+            </tr>
+
+            <tr>
+              <td class="small text-muted">10904609</td>
+              <td class="font-monospace small">227127</td>
+              <td>Caneca em Porcelana Personalizada</td>
+              <td class="text-center">478</td>
+              <td class="text-center">UN</td>
+              <td class="small">MUGS DO BRASIL</td>
+              <td class="small text-success fw-bold">R$ 8.365,00</td>
+            </tr>
+
+            <tr>
+              <td class="small text-muted">10903943</td>
+              <td class="font-monospace small">617297</td>
+              <td>Alinhador de eixos a laser faixa 635 a 6</td>
+              <td class="text-center">1</td>
+              <td class="text-center">SAC</td>
+              <td class="small">SKF</td>
+              <td class="small text-success fw-bold">R$ 59.143,21</td>
+            </tr>
+
+            <tr>
+              <td class="small text-muted">10903682 - REPROCESSO</td>
+              <td class="font-monospace small">410096</td>
+              <td>Solvente de petróleo tambor com 212L de</td>
+              <td class="text-center">212</td>
+              <td class="text-center">L</td>
+              <td class="small">ARCHEM QUÍMICA</td>
+              <td class="small text-success fw-bold">R$ 6.249,76</td>
+            </tr>
+
+            <tr>
+              <td class="small text-muted">10902780 10902781 10902791 109</td>
+              <td class="font-monospace small">235235</td>
+              <td>Jaqueta uso diário uni Mod A tam.G</td>
+              <td class="text-center">9</td>
+              <td class="text-center">UN</td>
+              <td class="small">PETROBRAS TRANSPORTE S/A </td>
+              <td class="small text-success fw-bold">R$ 2.928,78</td>
+            </tr>
+
+            <tr>
+              <td class="small text-muted">10902780 10902781 10902791 109</td>
+              <td class="font-monospace small">235236</td>
+              <td>Jaqueta uso diário uni Mod A tam.GG</td>
+              <td class="text-center">9</td>
+              <td class="text-center">UN</td>
+              <td class="small">PETROBRAS TRANSPORTE S/A </td>
+              <td class="small text-success fw-bold">R$ 2.737,98</td>
+            </tr>
+
+            <tr>
+              <td class="small text-muted">10902780 10902781 10902791 109</td>
+              <td class="font-monospace small">584966</td>
+              <td>Jaqueta uso diário uni Mod A tam.P</td>
+              <td class="text-center">6</td>
+              <td class="text-center">UN</td>
+              <td class="small">PETROBRAS TRANSPORTE S/A </td>
+              <td class="small text-success fw-bold">R$ 1.740,00</td>
+            </tr>
+
+            <tr>
+              <td class="small text-muted">10902780 10902781 10902791 109</td>
+              <td class="font-monospace small">584967</td>
+              <td>Jaqueta uso diário uni Mod A tam.M</td>
+              <td class="text-center">10</td>
+              <td class="text-center">UN</td>
+              <td class="small">PETROBRAS TRANSPORTE S/A </td>
+              <td class="small text-success fw-bold">R$ 3.158,80</td>
+            </tr>
+
+            <tr>
+              <td class="small text-muted">10902780 10902781 10902791 109</td>
+              <td class="font-monospace small">586574</td>
+              <td>Jaqueta uso diário uni Mod A tam.XG</td>
+              <td class="text-center">8</td>
+              <td class="text-center">UN</td>
+              <td class="small">PETROBRAS TRANSPORTE S/A </td>
+              <td class="small text-success fw-bold">R$ 2.798,40</td>
+            </tr>
+
+            <tr>
+              <td class="small text-muted">RC 0030</td>
+              <td class="font-monospace small">524194300 3</td>
+              <td>CADEIRA DE PLÁSTICO, CARACTERÍSTICAS: COR BRANCA</td>
+              <td class="text-center">16</td>
+              <td class="text-center">UN</td>
+              <td class="small">.</td>
+              <td class="small text-success fw-bold">R$ 800,00</td>
+            </tr>
+
+            <tr>
+              <td class="small text-muted">RC 0030</td>
+              <td class="font-monospace small">524194300 4</td>
+              <td>MESA DOBRÁVEL, CARACTERÍSTICAS: COR BRANCA; MODELO PORT</td>
+              <td class="text-center">4</td>
+              <td class="text-center">UN</td>
+              <td class="small">.</td>
+              <td class="small text-success fw-bold">R$ 1.200,00</td>
+            </tr>
+
+            <tr>
+              <td class="small text-muted">RC 0030</td>
+              <td class="font-monospace small">524194302 2</td>
+              <td>GELO REUTILIZÁVEL RÍGIDO, CARACTERÍSTICAS: EMBALAGEM EM</td>
+              <td class="text-center">150</td>
+              <td class="text-center">UN</td>
+              <td class="small">.</td>
+              <td class="small text-success fw-bold">R$ 1.050,00</td>
+            </tr>
+
+            <tr>
+              <td class="small text-muted">RC 0030</td>
+              <td class="font-monospace small">524194302 3</td>
+              <td>GELO REUTILIZÁVEL RÍGIDO, CARACTERÍSTICAS: EMBALAGEM EM</td>
+              <td class="text-center">150</td>
+              <td class="text-center">UN</td>
+              <td class="small">.</td>
+              <td class="small text-success fw-bold">R$ 1.500,00</td>
+            </tr>
+
+            <tr>
+              <td class="small text-muted">RC 0030</td>
+              <td class="font-monospace small">524194302 6</td>
+              <td>ALUMÍNIO COM ALÇAS DOBRÁVEIS</td>
+              <td class="text-center">50</td>
+              <td class="text-center">UN</td>
+              <td class="small">.</td>
+              <td class="small text-success fw-bold">R$ 20.000,00</td>
+            </tr>
+
+            <tr>
+              <td class="small text-muted">RC 0030</td>
+              <td class="font-monospace small">524194302 7</td>
+              <td>CUBA GASTRONÔMICA COM ALÇAS E TAMPA, CARACTERÍSTICAS: C</td>
+              <td class="text-center">100</td>
+              <td class="text-center">UN</td>
+              <td class="small">.</td>
+              <td class="small text-success fw-bold">R$ 22.000,00</td>
+            </tr>
+
+            <tr>
+              <td class="small text-muted">RC 0030</td>
+              <td class="font-monospace small">524194303 1</td>
+              <td>CAIXA TÉRMICA ISOTÉRMICA (TIPO MARMIBOX), CARACTERÍSTIC</td>
+              <td class="text-center">50</td>
+              <td class="text-center">UN</td>
+              <td class="small">.</td>
+              <td class="small text-success fw-bold">R$ 75.000,00</td>
+            </tr>
+
+            <tr>
+              <td class="small text-muted">RC 0030</td>
+              <td class="font-monospace small">524194303 3</td>
+              <td>AÇUCAREIRO DE PLÁSTICO COM TAMPA, CARACTERÍSTICAS: CAPA</td>
+              <td class="text-center">50</td>
+              <td class="text-center">UN</td>
+              <td class="small">.</td>
+              <td class="small text-success fw-bold">R$ 1.250,00</td>
+            </tr>
+
+            <tr>
+              <td class="small text-muted">RC 0030</td>
+              <td class="font-monospace small">524192499 3</td>
+              <td>BARRA MAGNÉTICA - BARRA MAGNÉTICA SUPORTE PARA FACAS, E</td>
+              <td class="text-center">10</td>
+              <td class="text-center">UN</td>
+              <td class="small">.</td>
+              <td class="small text-success fw-bold">R$ 1.200,00</td>
+            </tr>
+
+            <tr>
+              <td class="small text-muted">RC 0030</td>
+              <td class="font-monospace small">524194303 2</td>
+              <td>CAIXA TÉRMICA PROFISSIONAL PARA TRANSPORTE DE ALIMENTOS</td>
+              <td class="text-center">4</td>
+              <td class="text-center">UN</td>
+              <td class="small">.</td>
+              <td class="small text-success fw-bold">R$ 8.800,00</td>
+            </tr>
+
+            <tr>
+              <td class="small text-muted">10903445 - EMERGENCIAL - REPRO</td>
+              <td class="font-monospace small">617048</td>
+              <td>Acumulador Li-ion  22V 4.0 Ah</td>
+              <td class="text-center">2</td>
+              <td class="text-center">UN</td>
+              <td class="small">HILTI BRAZIL</td>
+              <td class="small text-success fw-bold">R$ 4.800,00</td>
+            </tr>
+
+            <tr>
+              <td class="small text-muted">10903445 - EMERGENCIAL - REPRO</td>
+              <td class="font-monospace small">617051</td>
+              <td>Acumulador Li-ion  22V 8.0 Ah</td>
+              <td class="text-center">2</td>
+              <td class="text-center">UN</td>
+              <td class="small">HILTI BRAZIL</td>
+              <td class="small text-success fw-bold">R$ 8.200,00</td>
+            </tr>
+
+            <tr>
+              <td class="small text-muted">10903445 - EMERGENCIAL - REPRO</td>
+              <td class="font-monospace small">617071</td>
+              <td>Carregador estacionário 220V</td>
+              <td class="text-center">2</td>
+              <td class="text-center">UN</td>
+              <td class="small">HILTI BRAZIL</td>
+              <td class="small text-success fw-bold">R$ 5.525,58</td>
+            </tr>
+
+            <tr>
+              <td class="small text-muted">10897897 - REPROCESSO</td>
+              <td class="font-monospace small">242258</td>
+              <td>Eletroduto ríg IEC60614 Al 3/4" 3m</td>
+              <td class="text-center">2</td>
+              <td class="text-center">UN</td>
+              <td class="small">PETROBRAS TRANSPORTE S/A </td>
+              <td class="small text-success fw-bold">R$ 189,00</td>
+            </tr>
+
+            <tr>
+              <td class="small text-muted">10897897 - REPROCESSO</td>
+              <td class="font-monospace small">300435</td>
+              <td>União eletroduto Al 3/4"</td>
+              <td class="text-center">6</td>
+              <td class="text-center">UN</td>
+              <td class="small">CONEX ELETROMECANICA</td>
+              <td class="small text-success fw-bold">R$ 231,90</td>
+            </tr>
+
+            <tr>
+              <td class="small text-muted">10897897 - REPROCESSO</td>
+              <td class="font-monospace small">513817</td>
+              <td>Caixa passag LB Al 3/4" IP 66</td>
+              <td class="text-center">2</td>
+              <td class="text-center">UN</td>
+              <td class="small">POLEODUTO</td>
+              <td class="small text-success fw-bold">R$ 153,00</td>
+            </tr>
+
+            <tr>
+              <td class="small text-muted">10897897 - REPROCESSO</td>
+              <td class="font-monospace small">513818</td>
+              <td>Caixa passag LR Al 3/4" IP 66</td>
+              <td class="text-center">2</td>
+              <td class="text-center">UN</td>
+              <td class="small">POLEODUTO</td>
+              <td class="small text-success fw-bold">R$ 153,00</td>
+            </tr>
+
+            <tr>
+              <td class="small text-muted">10897897 - REPROCESSO</td>
+              <td class="font-monospace small">513819</td>
+              <td>Caixa passag LL Al 3/4" IP 66</td>
+              <td class="text-center">2</td>
+              <td class="text-center">UN</td>
+              <td class="small">POLEODUTO</td>
+              <td class="small text-success fw-bold">R$ 153,00</td>
+            </tr>
+
+            <tr>
+              <td class="small text-muted">10897897 - REPROCESSO</td>
+              <td class="font-monospace small">206181</td>
+              <td>Niple curto eletr. Al 3/4"</td>
+              <td class="text-center">2</td>
+              <td class="text-center">UN</td>
+              <td class="small">BLINDA</td>
+              <td class="small text-success fw-bold">R$ 28,00</td>
+            </tr>
+
+            <tr>
+              <td class="small text-muted">10897897 - REPROCESSO</td>
+              <td class="font-monospace small">569974</td>
+              <td>Luminária LED 243W 90-305Vca</td>
+              <td class="text-center">6</td>
+              <td class="text-center">UN</td>
+              <td class="small">CONEXLED</td>
+              <td class="small text-success fw-bold">R$ 10.426,44</td>
+            </tr>
+
+            <tr>
+              <td class="small text-muted">10903833 - REPROCESSO</td>
+              <td class="font-monospace small">441769</td>
+              <td>Válv.esf. conv. 3" 150# WCB</td>
+              <td class="text-center">2</td>
+              <td class="text-center">UN</td>
+              <td class="small">—</td>
+              <td class="small text-success fw-bold">R$ 2.895,20</td>
+            </tr>
+
+            <tr>
+              <td class="small text-muted">10903828 - REPROCESSO</td>
+              <td class="font-monospace small">345767</td>
+              <td>Torre de iluminação móvel motor a disel</td>
+              <td class="text-center">1</td>
+              <td class="text-center">UN</td>
+              <td class="small">ATLAS COPCO</td>
+              <td class="small text-success fw-bold">R$ 75.451,00</td>
+            </tr>
+
+            <tr>
+              <td class="small text-muted">10903472 - REPROCESSO</td>
+              <td class="font-monospace small">579178</td>
+              <td>Exaustor elétrico 600mm EX 1700rpm</td>
+              <td class="text-center">1</td>
+              <td class="text-center">UN</td>
+              <td class="small">VESPER</td>
+              <td class="small text-success fw-bold">R$ 11.500,00</td>
+            </tr>
+
+            <tr>
+              <td class="small text-muted">10903309_10903321 - REPROCESSO</td>
+              <td class="font-monospace small">615540</td>
+              <td>SECADOR DE AR P/AR COMPRIMIDO PNEUM.</td>
+              <td class="text-center">2</td>
+              <td class="text-center">UN</td>
+              <td class="small">HB AR COMPRIMIDO</td>
+              <td class="small text-success fw-bold">R$ 12.128,28</td>
+            </tr>
+
+            <tr>
+              <td class="small text-muted">10903309_10903321 - REPROCESSO</td>
+              <td class="font-monospace small">615541</td>
+              <td>FILTR.COALESC. VERT. 1/2" 108³/H MCH.BSP</td>
+              <td class="text-center">2</td>
+              <td class="text-center">UN</td>
+              <td class="small">HB AR COMPRIMIDO</td>
+              <td class="small text-success fw-bold">R$ 4.753,04</td>
+            </tr>
+
+            <tr>
+              <td class="small text-muted">10903309_10903321 - REPROCESSO</td>
+              <td class="font-monospace small">615542</td>
+              <td>SEPARADOR DE ÁGUA E ÓLEO ALUMÍNIO</td>
+              <td class="text-center">2</td>
+              <td class="text-center">UN</td>
+              <td class="small">HB AR COMPRIMIDO</td>
+              <td class="small text-success fw-bold">R$ 3.405,12</td>
+            </tr>
+
+            <tr>
+              <td class="small text-muted">10895316 - REPROCESSO</td>
+              <td class="font-monospace small">579642</td>
+              <td>Lubrificador p/ar compr. DN 3/4pol</td>
+              <td class="text-center">8</td>
+              <td class="text-center">—</td>
+              <td class="small">SMC PNEUMATIC</td>
+              <td class="small text-success fw-bold">R$ 4.623,76</td>
+            </tr>
+
+            <tr>
+              <td class="small text-muted">10902090 - REPROCESSO</td>
+              <td class="font-monospace small">580429</td>
+              <td>Chave fluxo tp.term. DN 3/4"</td>
+              <td class="text-center">1</td>
+              <td class="text-center">UN</td>
+              <td class="small">MAGNETROL</td>
+              <td class="small text-success fw-bold">R$ 41.625,00</td>
+            </tr>
+
+            <tr>
+              <td class="small text-muted">10900324 - REPROCESSO</td>
+              <td class="font-monospace small">590453</td>
+              <td>Livro Ballast Water Record Book</td>
+              <td class="text-center">2</td>
+              <td class="text-center">UN</td>
+              <td class="small">WITHERBYS PUBLISHING</td>
+              <td class="small text-success fw-bold">R$ 320,00</td>
+            </tr>
+
+            <tr>
+              <td class="small text-muted">10900938 - REPROCESSO - REPROC</td>
+              <td class="font-monospace small">581597</td>
+              <td>Bucha de isolamento elétrico porcelana 1</td>
+              <td class="text-center">3</td>
+              <td class="text-center">UN</td>
+              <td class="small">ABB GROUP - ASEA BROWN BO</td>
+              <td class="small text-success fw-bold">R$ 60.750,00</td>
+            </tr>
+
+            <tr>
+              <td class="small text-muted">10884808 - REPROCESSO - REPROC</td>
+              <td class="font-monospace small">406621</td>
+              <td>Solução teste sensibilidade</td>
+              <td class="text-center">1</td>
+              <td class="text-center">UN</td>
+              <td class="small">MSA DO BRASIL</td>
+              <td class="small text-success fw-bold">R$ 300,00</td>
+            </tr>
+
+            <tr>
+              <td class="small text-muted">10902494 - REPROCESSO - REPROC</td>
+              <td class="font-monospace small">545568</td>
+              <td>Módulo terminador de rede p/unid/term.re</td>
+              <td class="text-center">1</td>
+              <td class="text-center">UN</td>
+              <td class="small">PEPPERL E FUCHS GB L</td>
+              <td class="small text-success fw-bold">R$ 1.232,52</td>
+            </tr>
+
+            <tr>
+              <td class="small text-muted">10902494 - REPROCESSO - REPROC</td>
+              <td class="font-monospace small">581656</td>
+              <td>Módulo comunic. p/CLP GE</td>
+              <td class="text-center">1</td>
+              <td class="text-center">UN</td>
+              <td class="small">GE FANUC</td>
+              <td class="small text-success fw-bold">R$ 13.500,00</td>
+            </tr>
+
+            <tr>
+              <td class="small text-muted">10902028 - REPROCESSO - REPROC</td>
+              <td class="font-monospace small">408320</td>
+              <td>Bota segurança cano L PRE 39</td>
+              <td class="text-center">25</td>
+              <td class="text-center">PAR</td>
+              <td class="small">FUJIWARA EQUIPAMENTOS DE </td>
+              <td class="small text-success fw-bold">R$ 2.323,00</td>
+            </tr>
+
+            <tr>
+              <td class="small text-muted">10902768 - REPROCESSO</td>
+              <td class="font-monospace small">574220</td>
+              <td>Válv.esf. F/S 1" 800# EE A105</td>
+              <td class="text-center">6</td>
+              <td class="text-center">UN</td>
+              <td class="small">UNIVAL</td>
+              <td class="small text-success fw-bold">R$ 7.425,24</td>
+            </tr>
+
+            <tr>
+              <td class="small text-muted">10901859 - REPROCESSO</td>
+              <td class="font-monospace small">586646</td>
+              <td>Módulo de controle p/retificador Yanashi</td>
+              <td class="text-center">2</td>
+              <td class="text-center">UN</td>
+              <td class="small">YANASHI</td>
+              <td class="small text-success fw-bold">R$ 16.209,52</td>
+            </tr>
+
+            <tr>
+              <td class="small text-muted">10903129 - REPROCESSO</td>
+              <td class="font-monospace small">616961</td>
+              <td>Garra esd NR20IP 100mm sistema de monito</td>
+              <td class="text-center">1</td>
+              <td class="text-center">UN</td>
+              <td class="small">ESD ANTIESTATICOS</td>
+              <td class="small text-success fw-bold">R$ 1.190,00</td>
+            </tr></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+new Chart(document.getElementById('statusChart'), {
+  type: 'doughnut',
+  data: {
+    labels: ["close", "cancel", "open", "temp"],
+    datasets: [{ data: [2571, 120, 75, 3], backgroundColor: ["#6c757d", "#dc3545", "#6f42c1", "#fd7e14"], borderWidth: 2 }]
+  },
+  options: { plugins: { legend: { position: 'bottom' } }, cutout: '60%' }
+});
+</script>
+</body>
+</html>
