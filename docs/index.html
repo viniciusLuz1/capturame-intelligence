@@ -19,7 +19,7 @@
 <nav class="navbar navbar-dark" style="background:#6f42c1;">
   <div class="container-fluid">
     <span class="navbar-brand fw-bold">⚡ CapturaME Intelligence</span>
-    <span class="text-white-50 small">Atualizado: 08/06/2026 16:25</span>
+    <span class="text-white-50 small">Atualizado: 08/06/2026 16:29</span>
   </div>
 </nav>
 
@@ -47,8 +47,8 @@
       <div class="card card-metric h-100 shadow-sm" style="border-color:#0d6efd;">
         <div class="card-body">
           <div class="text-muted small">Itens Coletados</div>
-          <div class="display-5" style="color:#0d6efd;">1,141</div>
-          <div class="text-muted small">453 leilões cobertos</div>
+          <div class="display-5" style="color:#0d6efd;">1,259</div>
+          <div class="text-muted small">500 leilões cobertos</div>
         </div>
       </div>
     </div>
@@ -56,13 +56,48 @@
       <div class="card card-metric h-100 shadow-sm" style="border-color:#dc3545;">
         <div class="card-body">
           <div class="text-muted small">NMs Únicos</div>
-          <div class="display-5" style="color:#dc3545;">945</div>
+          <div class="display-5" style="color:#dc3545;">1,017</div>
         </div>
       </div>
     </div>
   </div>
 
   <div class="row g-3">
+
+    <!-- Gráfico por período -->
+    <div class="col-12">
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-2">
+            <h6 class="section-title mb-0">Itens por Período</h6>
+            <div class="d-flex gap-2">
+              <div class="btn-group btn-group-sm" role="group">
+                <button class="btn btn-outline-secondary active" onclick="filtrarPeriodo(3,this)">3 meses</button>
+                <button class="btn btn-outline-secondary" onclick="filtrarPeriodo(6,this)">6 meses</button>
+                <button class="btn btn-outline-secondary" onclick="filtrarPeriodo(12,this)">12 meses</button>
+                <button class="btn btn-outline-secondary" onclick="filtrarPeriodo(999,this)">Tudo</button>
+              </div>
+              <div class="btn-group btn-group-sm" role="group">
+                <button class="btn btn-purple active" id="btnLeiloes" onclick="toggleSerie('leiloes',this)">Leilões</button>
+                <button class="btn btn-purple" id="btnItens" onclick="toggleSerie('itens',this)">Itens</button>
+                <button class="btn btn-purple" id="btnNMs" onclick="toggleSerie('nms',this)">NMs</button>
+              </div>
+            </div>
+          </div>
+          <canvas id="periodoChart" height="80"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <!-- NMs novos por mês -->
+    <div class="col-12">
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <h6 class="section-title">NMs Novos por Mês <small class="text-muted fw-normal">(primeira aparição)</small></h6>
+          <canvas id="nmsNovosChart" height="60"></canvas>
+        </div>
+      </div>
+    </div>
 
     <!-- Chart + Cidades -->
     <div class="col-md-4">
@@ -120,6 +155,54 @@
             </tr>
 
             <tr>
+              <td class="font-monospace small">223772</td>
+              <td>P/martelete pneum ARCOMFER</td>
+              <td class="text-center"><span class="badge bg-danger">6x</span></td>
+              <td class="small text-success">R$ 2.400,00</td>
+              <td class="small text-danger">R$ 6.025,00</td>
+            </tr>
+
+            <tr>
+              <td class="font-monospace small">223803</td>
+              <td>Parafuso P/martelete pneum ARCOMFER</td>
+              <td class="text-center"><span class="badge bg-danger">6x</span></td>
+              <td class="small text-success">R$ 138,60</td>
+              <td class="small text-danger">R$ 92,40</td>
+            </tr>
+
+            <tr>
+              <td class="font-monospace small">223681</td>
+              <td>Porta agulhas P/martelete pneum ARCOMFER</td>
+              <td class="text-center"><span class="badge bg-danger">5x</span></td>
+              <td class="small text-success">R$ 115,00</td>
+              <td class="small text-danger">R$ 889,80</td>
+            </tr>
+
+            <tr>
+              <td class="font-monospace small">223794</td>
+              <td>Embolo P/martelete pneum ARCOMFER</td>
+              <td class="text-center"><span class="badge bg-danger">5x</span></td>
+              <td class="small text-success">R$ 1.174,70</td>
+              <td class="small text-danger">R$ 3.302,10</td>
+            </tr>
+
+            <tr>
+              <td class="font-monospace small">223802</td>
+              <td>Tubo de ligação P/martelete pneum ARCOMF</td>
+              <td class="text-center"><span class="badge bg-danger">5x</span></td>
+              <td class="small text-success">R$ 168,00</td>
+              <td class="small text-danger">R$ 757,00</td>
+            </tr>
+
+            <tr>
+              <td class="font-monospace small">227192</td>
+              <td>Parafuso P/martelete pneum ARCOMFER</td>
+              <td class="text-center"><span class="badge bg-danger">5x</span></td>
+              <td class="small text-success">R$ 500,00</td>
+              <td class="small text-danger">R$ 780,00</td>
+            </tr>
+
+            <tr>
               <td class="font-monospace small">544689</td>
               <td>Conj. teclado/mouse Wireless</td>
               <td class="text-center"><span class="badge bg-danger">5x</span></td>
@@ -128,27 +211,11 @@
             </tr>
 
             <tr>
-              <td class="font-monospace small">223681</td>
-              <td>Porta agulhas P/martelete pneum ARCOMFER</td>
-              <td class="text-center"><span class="badge bg-danger">4x</span></td>
-              <td class="small text-success">R$ 708,60</td>
-              <td class="small text-danger">R$ 889,80</td>
-            </tr>
-
-            <tr>
-              <td class="font-monospace small">223772</td>
-              <td>P/martelete pneum ARCOMFER</td>
-              <td class="text-center"><span class="badge bg-danger">4x</span></td>
-              <td class="small text-success">R$ 4.275,60</td>
-              <td class="small text-danger">R$ 6.025,00</td>
-            </tr>
-
-            <tr>
-              <td class="font-monospace small">223794</td>
-              <td>Embolo P/martelete pneum ARCOMFER</td>
-              <td class="text-center"><span class="badge bg-danger">4x</span></td>
-              <td class="small text-success">R$ 1.174,70</td>
-              <td class="small text-danger">R$ 3.302,10</td>
+              <td class="font-monospace small">7803812</td>
+              <td>CAP - COLETE LARANJA SEM BOLSO TAM P/M/G/GG</td>
+              <td class="text-center"><span class="badge bg-danger">5x</span></td>
+              <td class="small text-success">R$ 17,10</td>
+              <td class="small text-danger">R$ 85,50</td>
             </tr>
 
             <tr>
@@ -160,35 +227,11 @@
             </tr>
 
             <tr>
-              <td class="font-monospace small">223802</td>
-              <td>Tubo de ligação P/martelete pneum ARCOMF</td>
-              <td class="text-center"><span class="badge bg-danger">4x</span></td>
-              <td class="small text-success">R$ 346,70</td>
-              <td class="small text-danger">R$ 757,00</td>
-            </tr>
-
-            <tr>
-              <td class="font-monospace small">223803</td>
-              <td>Parafuso P/martelete pneum ARCOMFER</td>
-              <td class="text-center"><span class="badge bg-danger">4x</span></td>
-              <td class="small text-success">R$ 138,60</td>
-              <td class="small text-danger">R$ 92,40</td>
-            </tr>
-
-            <tr>
               <td class="font-monospace small">225503</td>
               <td>Agulha de aço P/martelete pneum ARCOMFER</td>
               <td class="text-center"><span class="badge bg-danger">4x</span></td>
               <td class="small text-success">R$ 1.563,00</td>
               <td class="small text-danger">R$ 2.904,00</td>
-            </tr>
-
-            <tr>
-              <td class="font-monospace small">227192</td>
-              <td>Parafuso P/martelete pneum ARCOMFER</td>
-              <td class="text-center"><span class="badge bg-danger">4x</span></td>
-              <td class="small text-success">R$ 500,00</td>
-              <td class="small text-danger">R$ 780,00</td>
             </tr>
 
             <tr>
@@ -224,43 +267,35 @@
             </tr>
 
             <tr>
+              <td class="font-monospace small">3857765</td>
+              <td>CAP - BOTINA ANTI-TORÇÃO ( BOTINA - TIPO B) TAM 43</td>
+              <td class="text-center"><span class="badge bg-danger">4x</span></td>
+              <td class="small text-success">R$ 199,90</td>
+              <td class="small text-danger">R$ 219,00</td>
+            </tr>
+
+            <tr>
+              <td class="font-monospace small">406621</td>
+              <td>Solução teste sensibilidade</td>
+              <td class="text-center"><span class="badge bg-danger">4x</span></td>
+              <td class="small text-success">R$ 110,00</td>
+              <td class="small text-danger">R$ 310,00</td>
+            </tr>
+
+            <tr>
+              <td class="font-monospace small">5610215</td>
+              <td>Protetor solar 60 fps</td>
+              <td class="text-center"><span class="badge bg-danger">4x</span></td>
+              <td class="small text-success">R$ 170,00</td>
+              <td class="small text-danger">R$ 313,50</td>
+            </tr>
+
+            <tr>
               <td class="font-monospace small">581597</td>
               <td>Bucha de isolamento elétrico porcelana 1</td>
               <td class="text-center"><span class="badge bg-danger">4x</span></td>
               <td class="small text-success">R$ 20.250,00</td>
               <td class="small text-danger">R$ 60.750,00</td>
-            </tr>
-
-            <tr>
-              <td class="font-monospace small">583163</td>
-              <td>Luva de segurança poliamida tam.8-P</td>
-              <td class="text-center"><span class="badge bg-danger">4x</span></td>
-              <td class="small text-success">R$ 1.171,80</td>
-              <td class="small text-danger">R$ 589,49</td>
-            </tr>
-
-            <tr>
-              <td class="font-monospace small">7803812</td>
-              <td>CAP - COLETE LARANJA SEM BOLSO TAM P/M/G/GG</td>
-              <td class="text-center"><span class="badge bg-danger">4x</span></td>
-              <td class="small text-success">R$ 17,10</td>
-              <td class="small text-danger">R$ 85,50</td>
-            </tr>
-
-            <tr>
-              <td class="font-monospace small">150994</td>
-              <td>Fita durex acetato 19mmx33m branca</td>
-              <td class="text-center"><span class="badge bg-danger">3x</span></td>
-              <td class="small text-success">R$ 52,00</td>
-              <td class="small text-danger">R$ 7,80</td>
-            </tr>
-
-            <tr>
-              <td class="font-monospace small">152475</td>
-              <td>HUB USB 4 PORTAS</td>
-              <td class="text-center"><span class="badge bg-danger">3x</span></td>
-              <td class="small text-success">R$ 254,00</td>
-              <td class="small text-danger">R$ 421,30</td>
             </tr></tbody>
           </table>
         </div>
@@ -1477,7 +1512,108 @@
   </div>
 </div>
 
+<style>
+  .btn-purple { background:#6f42c1; color:#fff; border-color:#6f42c1; }
+  .btn-purple:hover, .btn-purple.active { background:#5a32a3; border-color:#5a32a3; color:#fff; }
+</style>
 <script>
+// Dados completos de período
+const todosMeses    = ["-000-11", "2023-03", "2024-03", "2024-10", "2024-11", "2024-12", "2025-02", "2025-03", "2025-04", "2025-05", "2025-06", "2025-07", "2025-08", "2025-09", "2025-10", "2025-11", "2025-12", "2026-01", "2026-02", "2026-03", "2026-04", "2026-05", "2026-06"];
+const todosLeiloes  = [2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 5, 12, 100, 318, 394, 301, 238, 328, 242, 262, 213, 298, 47];
+const todosItens    = [0, 1, 1, 0, 0, 1, 0, 0, 0, 1, 0, 18, 0, 0, 27, 0, 1, 1, 0, 1, 347, 737, 123];
+const todosNMs      = [0, 1, 1, 0, 0, 1, 0, 0, 0, 1, 0, 18, 0, 0, 26, 0, 1, 1, 0, 1, 312, 626, 122];
+
+// Estado dos toggles
+const seriesVisiveis = { leiloes: true, itens: false, nms: false };
+
+const periodoCtx = document.getElementById('periodoChart');
+const periodoChart = new Chart(periodoCtx, {
+  type: 'bar',
+  data: {
+    labels: todosMeses,
+    datasets: [
+      {
+        label: 'Leilões',
+        data: todosLeiloes,
+        backgroundColor: 'rgba(111,66,193,0.7)',
+        borderColor: '#6f42c1',
+        borderWidth: 1,
+        hidden: false,
+      },
+      {
+        label: 'Itens',
+        data: todosItens,
+        backgroundColor: 'rgba(13,110,253,0.7)',
+        borderColor: '#0d6efd',
+        borderWidth: 1,
+        hidden: true,
+      },
+      {
+        label: 'NMs únicos',
+        data: todosNMs,
+        backgroundColor: 'rgba(25,135,84,0.7)',
+        borderColor: '#198754',
+        borderWidth: 1,
+        hidden: true,
+      },
+    ]
+  },
+  options: {
+    responsive: true,
+    plugins: { legend: { display: false } },
+    scales: {
+      x: { grid: { display: false } },
+      y: { beginAtZero: true },
+    }
+  }
+});
+
+function filtrarPeriodo(meses, btn) {
+  document.querySelectorAll('[onclick^="filtrarPeriodo"]').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  const n = meses >= 999 ? todosMeses.length : meses;
+  const labels = todosMeses.slice(-n);
+  periodoChart.data.labels = labels;
+  periodoChart.data.datasets[0].data = todosLeiloes.slice(-n);
+  periodoChart.data.datasets[1].data = todosItens.slice(-n);
+  periodoChart.data.datasets[2].data = todosNMs.slice(-n);
+  periodoChart.update();
+}
+
+function toggleSerie(serie, btn) {
+  const map = { leiloes: 0, itens: 1, nms: 2 };
+  const idx = map[serie];
+  const meta = periodoChart.getDatasetMeta(idx);
+  meta.hidden = !meta.hidden;
+  btn.classList.toggle('active', !meta.hidden);
+  periodoChart.update();
+}
+
+// NMs novos por mês
+new Chart(document.getElementById('nmsNovosChart'), {
+  type: 'line',
+  data: {
+    labels: ["2023-03", "2024-03", "2024-12", "2025-05", "2025-07", "2025-10", "2025-12", "2026-01", "2026-03", "2026-04", "2026-05", "2026-06"],
+    datasets: [{
+      label: 'NMs novos',
+      data: [1, 1, 1, 1, 18, 26, 1, 1, 1, 280, 564, 122],
+      borderColor: '#dc3545',
+      backgroundColor: 'rgba(220,53,69,0.1)',
+      fill: true,
+      tension: 0.3,
+      pointRadius: 3,
+    }]
+  },
+  options: {
+    responsive: true,
+    plugins: { legend: { display: false } },
+    scales: {
+      x: { grid: { display: false } },
+      y: { beginAtZero: true },
+    }
+  }
+});
+
 new Chart(document.getElementById('statusChart'), {
   type: 'doughnut',
   data: {

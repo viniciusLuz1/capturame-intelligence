@@ -89,6 +89,59 @@ def build_data(conn):
         LIMIT 10
     """)
 
+    # Itens por mês (baseado na data_criacao do leilão — formato DD/MM/YYYY)
+    itens_por_mes = query(conn, """
+        SELECT
+            substr(l.data_criacao, 7, 4) || '-' || substr(l.data_criacao, 4, 2) AS periodo,
+            COUNT(DISTINCT l.id_externo)  AS qtd_leiloes,
+            COUNT(li.id)                  AS qtd_itens,
+            COUNT(DISTINCT li.nm)         AS qtd_nms
+        FROM leiloes l
+        LEFT JOIN leilao_itens li ON li.leilao_id = l.id_externo
+        WHERE l.data_criacao IS NOT NULL AND length(l.data_criacao) >= 10
+        GROUP BY periodo
+        ORDER BY periodo ASC
+    """)
+
+    # Itens por semana
+    itens_por_semana = query(conn, """
+        SELECT
+            substr(l.data_criacao, 7, 4) || '-' ||
+            printf('%02d', (
+                (CAST(substr(l.data_criacao, 1, 2) AS INTEGER) +
+                 (CAST(substr(l.data_criacao, 4, 2) AS INTEGER) - 1) * 30) / 7
+            )) AS semana,
+            substr(l.data_criacao, 7, 4) AS ano,
+            substr(l.data_criacao, 4, 2) AS mes,
+            substr(l.data_criacao, 1, 2) AS dia,
+            COUNT(DISTINCT l.id_externo) AS qtd_leiloes,
+            COUNT(li.id)                 AS qtd_itens,
+            COUNT(DISTINCT li.nm)        AS qtd_nms
+        FROM leiloes l
+        LEFT JOIN leilao_itens li ON li.leilao_id = l.id_externo
+        WHERE l.data_criacao IS NOT NULL AND length(l.data_criacao) >= 10
+        GROUP BY ano, mes, dia
+        ORDER BY ano, mes, dia
+    """)
+
+    # NMs: primeiras aparições por mês (quando cada NM apareceu pela 1a vez)
+    nms_novos_por_mes = query(conn, """
+        SELECT
+            substr(l.data_criacao, 7, 4) || '-' || substr(l.data_criacao, 4, 2) AS periodo,
+            COUNT(DISTINCT li.nm) AS nms_novos
+        FROM leilao_itens li
+        JOIN leiloes l ON l.id_externo = li.leilao_id
+        WHERE li.nm IS NOT NULL AND li.nm != 'None'
+          AND l.data_criacao = (
+              SELECT MIN(l2.data_criacao)
+              FROM leilao_itens li2
+              JOIN leiloes l2 ON l2.id_externo = li2.leilao_id
+              WHERE li2.nm = li.nm
+          )
+        GROUP BY periodo
+        ORDER BY periodo ASC
+    """)
+
     return {
         "now": now,
         "total_leiloes": total_leiloes,
@@ -102,6 +155,8 @@ def build_data(conn):
         "nms_recorrentes": nms_recorrentes,
         "itens_recentes": itens_recentes,
         "cidades": cidades,
+        "itens_por_mes": itens_por_mes,
+        "nms_novos_por_mes": nms_novos_por_mes,
     }
 
 
@@ -164,6 +219,14 @@ def render(d):
         "cancel": "#dc3545", "temp": "#fd7e14",
     }
     chart_colors = json.dumps([status_colors.get(s, "#adb5bd") for s in d["status_labels"]])
+
+    # Dados do gráfico de período
+    meses       = json.dumps([r[0] for r in d["itens_por_mes"]])
+    qtd_leiloes = json.dumps([r[1] for r in d["itens_por_mes"]])
+    qtd_itens   = json.dumps([r[2] for r in d["itens_por_mes"]])
+    qtd_nms     = json.dumps([r[3] for r in d["itens_por_mes"]])
+    nms_novos_labels = json.dumps([r[0] for r in d["nms_novos_por_mes"]])
+    nms_novos_vals   = json.dumps([r[1] for r in d["nms_novos_por_mes"]])
 
     return f"""<!DOCTYPE html>
 <html lang="pt-br">
@@ -230,6 +293,41 @@ def render(d):
   </div>
 
   <div class="row g-3">
+
+    <!-- Gráfico por período -->
+    <div class="col-12">
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-2">
+            <h6 class="section-title mb-0">Itens por Período</h6>
+            <div class="d-flex gap-2">
+              <div class="btn-group btn-group-sm" role="group">
+                <button class="btn btn-outline-secondary active" onclick="filtrarPeriodo(3,this)">3 meses</button>
+                <button class="btn btn-outline-secondary" onclick="filtrarPeriodo(6,this)">6 meses</button>
+                <button class="btn btn-outline-secondary" onclick="filtrarPeriodo(12,this)">12 meses</button>
+                <button class="btn btn-outline-secondary" onclick="filtrarPeriodo(999,this)">Tudo</button>
+              </div>
+              <div class="btn-group btn-group-sm" role="group">
+                <button class="btn btn-purple active" id="btnLeiloes" onclick="toggleSerie('leiloes',this)">Leilões</button>
+                <button class="btn btn-purple" id="btnItens" onclick="toggleSerie('itens',this)">Itens</button>
+                <button class="btn btn-purple" id="btnNMs" onclick="toggleSerie('nms',this)">NMs</button>
+              </div>
+            </div>
+          </div>
+          <canvas id="periodoChart" height="80"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <!-- NMs novos por mês -->
+    <div class="col-12">
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <h6 class="section-title">NMs Novos por Mês <small class="text-muted fw-normal">(primeira aparição)</small></h6>
+          <canvas id="nmsNovosChart" height="60"></canvas>
+        </div>
+      </div>
+    </div>
 
     <!-- Chart + Cidades -->
     <div class="col-md-4">
@@ -303,7 +401,108 @@ def render(d):
   </div>
 </div>
 
+<style>
+  .btn-purple {{ background:#6f42c1; color:#fff; border-color:#6f42c1; }}
+  .btn-purple:hover, .btn-purple.active {{ background:#5a32a3; border-color:#5a32a3; color:#fff; }}
+</style>
 <script>
+// Dados completos de período
+const todosMeses    = {meses};
+const todosLeiloes  = {qtd_leiloes};
+const todosItens    = {qtd_itens};
+const todosNMs      = {qtd_nms};
+
+// Estado dos toggles
+const seriesVisiveis = {{ leiloes: true, itens: false, nms: false }};
+
+const periodoCtx = document.getElementById('periodoChart');
+const periodoChart = new Chart(periodoCtx, {{
+  type: 'bar',
+  data: {{
+    labels: todosMeses,
+    datasets: [
+      {{
+        label: 'Leilões',
+        data: todosLeiloes,
+        backgroundColor: 'rgba(111,66,193,0.7)',
+        borderColor: '#6f42c1',
+        borderWidth: 1,
+        hidden: false,
+      }},
+      {{
+        label: 'Itens',
+        data: todosItens,
+        backgroundColor: 'rgba(13,110,253,0.7)',
+        borderColor: '#0d6efd',
+        borderWidth: 1,
+        hidden: true,
+      }},
+      {{
+        label: 'NMs únicos',
+        data: todosNMs,
+        backgroundColor: 'rgba(25,135,84,0.7)',
+        borderColor: '#198754',
+        borderWidth: 1,
+        hidden: true,
+      }},
+    ]
+  }},
+  options: {{
+    responsive: true,
+    plugins: {{ legend: {{ display: false }} }},
+    scales: {{
+      x: {{ grid: {{ display: false }} }},
+      y: {{ beginAtZero: true }},
+    }}
+  }}
+}});
+
+function filtrarPeriodo(meses, btn) {{
+  document.querySelectorAll('[onclick^="filtrarPeriodo"]').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  const n = meses >= 999 ? todosMeses.length : meses;
+  const labels = todosMeses.slice(-n);
+  periodoChart.data.labels = labels;
+  periodoChart.data.datasets[0].data = todosLeiloes.slice(-n);
+  periodoChart.data.datasets[1].data = todosItens.slice(-n);
+  periodoChart.data.datasets[2].data = todosNMs.slice(-n);
+  periodoChart.update();
+}}
+
+function toggleSerie(serie, btn) {{
+  const map = {{ leiloes: 0, itens: 1, nms: 2 }};
+  const idx = map[serie];
+  const meta = periodoChart.getDatasetMeta(idx);
+  meta.hidden = !meta.hidden;
+  btn.classList.toggle('active', !meta.hidden);
+  periodoChart.update();
+}}
+
+// NMs novos por mês
+new Chart(document.getElementById('nmsNovosChart'), {{
+  type: 'line',
+  data: {{
+    labels: {nms_novos_labels},
+    datasets: [{{
+      label: 'NMs novos',
+      data: {nms_novos_vals},
+      borderColor: '#dc3545',
+      backgroundColor: 'rgba(220,53,69,0.1)',
+      fill: true,
+      tension: 0.3,
+      pointRadius: 3,
+    }}]
+  }},
+  options: {{
+    responsive: true,
+    plugins: {{ legend: {{ display: false }} }},
+    scales: {{
+      x: {{ grid: {{ display: false }} }},
+      y: {{ beginAtZero: true }},
+    }}
+  }}
+}});
+
 new Chart(document.getElementById('statusChart'), {{
   type: 'doughnut',
   data: {{
