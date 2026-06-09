@@ -76,10 +76,25 @@ class DatabaseManager:
                 FOREIGN KEY(leilao_id) REFERENCES leiloes(id_externo)
             );
 
-            CREATE INDEX IF NOT EXISTS idx_leiloes_status   ON leiloes(status);
-            CREATE INDEX IF NOT EXISTS idx_leiloes_exp      ON leiloes(data_expiracao);
-            CREATE INDEX IF NOT EXISTS idx_cotacoes_status  ON cotacoes(status_resp);
-            CREATE INDEX IF NOT EXISTS idx_itens_leilao     ON leilao_itens(leilao_id);
+            CREATE TABLE IF NOT EXISTS leilao_resultados (
+                id              INTEGER PRIMARY KEY AUTOINCREMENT,
+                leilao_id       INTEGER NOT NULL,
+                item_nome       TEXT,
+                posicao         INTEGER,
+                fornecedor      TEXT,
+                data_proposta   TEXT,
+                valor_unitario  TEXT,
+                valor_total     TEXT,
+                capturado_em    TEXT NOT NULL,
+                FOREIGN KEY(leilao_id) REFERENCES leiloes(id_externo)
+            );
+
+            CREATE INDEX IF NOT EXISTS idx_leiloes_status    ON leiloes(status);
+            CREATE INDEX IF NOT EXISTS idx_leiloes_exp       ON leiloes(data_expiracao);
+            CREATE INDEX IF NOT EXISTS idx_cotacoes_status   ON cotacoes(status_resp);
+            CREATE INDEX IF NOT EXISTS idx_itens_leilao      ON leilao_itens(leilao_id);
+            CREATE INDEX IF NOT EXISTS idx_resultados_leilao ON leilao_resultados(leilao_id);
+            CREATE INDEX IF NOT EXISTS idx_resultados_forn   ON leilao_resultados(fornecedor);
         """)
         # Adiciona colunas de entrega na tabela leiloes se não existirem
         for col in ["local_entrega", "cidade_entrega", "uf_entrega", "cep_entrega"]:
@@ -212,6 +227,42 @@ class DatabaseManager:
         return self.conn.execute("SELECT COUNT(*) FROM leilao_itens").fetchone()[0]
 
     # ---------------------------------------------------------------- #
+    # Resultados / Vencedores (Fase 4)
+    # ---------------------------------------------------------------- #
+
+    def upsert_leilao_resultado(self, leilao_id: int, row: dict) -> None:
+        self.conn.execute("""
+            INSERT INTO leilao_resultados
+                (leilao_id, item_nome, posicao, fornecedor,
+                 data_proposta, valor_unitario, valor_total, capturado_em)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+        """, (
+            leilao_id,
+            row.get("item_nome"),
+            row.get("posicao"),
+            row.get("fornecedor"),
+            row.get("data_proposta"),
+            row.get("valor_unitario"),
+            row.get("valor_total"),
+            datetime.now().isoformat(),
+        ))
+
+    def get_leiloes_fechados_sem_resultado(self) -> list:
+        """Retorna leilões fechados que ainda não têm resultado coletado."""
+        return self.conn.execute("""
+            SELECT l.id_externo, l.code
+            FROM leiloes l
+            WHERE l.status = 'close'
+              AND NOT EXISTS (
+                SELECT 1 FROM leilao_resultados r WHERE r.leilao_id = l.id_externo
+              )
+            ORDER BY l.id_externo DESC
+        """).fetchall()
+
+    def count_leilao_resultados(self) -> int:
+        return self.conn.execute("SELECT COUNT(*) FROM leilao_resultados").fetchone()[0]
+
+    # ---------------------------------------------------------------- #
     # Utilitários
     # ---------------------------------------------------------------- #
 
@@ -220,9 +271,10 @@ class DatabaseManager:
 
     def get_stats(self) -> dict:
         return {
-            "leiloes":       self.count_leiloes(),
-            "cotacoes":      self.count_cotacoes(),
-            "leilao_itens":  self.count_leilao_itens(),
+            "leiloes":            self.count_leiloes(),
+            "cotacoes":           self.count_cotacoes(),
+            "leilao_itens":       self.count_leilao_itens(),
+            "leilao_resultados":  self.count_leilao_resultados(),
         }
 
     def close(self) -> None:

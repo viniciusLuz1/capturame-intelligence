@@ -45,6 +45,7 @@ from scraper.database import DatabaseManager
 from scraper.leiloes import LeilaoScraper
 from scraper.cotacoes import CotacaoScraper
 from scraper.itens import ItenScraper
+from scraper.resultados import ResultadoScraper
 
 log = get_logger("main")
 
@@ -389,6 +390,42 @@ def _run_fase3_with_context(context: "BrowserContext", limit: int = None) -> Non
 
 
 # ------------------------------------------------------------------ #
+# Fase 4 – Resultados / Vencedores (dentro da sessão do browser)
+# ------------------------------------------------------------------ #
+
+def _run_fase4_with_context(context: "BrowserContext", limit: int = None) -> None:
+    """
+    Executa a Fase 4: coleta resultados (vencedores e todas as propostas) dos leilões fechados.
+    """
+    log.info("=" * 60)
+    log.info("  CapturaME Intelligence – Fase 4 (Resultados)")
+    log.info(f"  Iniciado em: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+    log.info("=" * 60)
+
+    db = DatabaseManager()
+    stats = {}
+
+    try:
+        api = context.request
+        scraper = ResultadoScraper(api, limit_leiloes=limit)
+        stats = scraper.coletar_resultados_todos(db=db)
+
+    except Exception as exc:
+        log.exception(f"[Fase4] ❌ Erro: {exc}")
+    finally:
+        db_stats = db.get_stats()
+        db.close()
+
+    log.info("=" * 60)
+    log.info("  FASE 4 CONCLUÍDA")
+    log.info(f"  Leilões processados:  {stats.get('processados', 0):,}")
+    log.info(f"  Propostas salvas:     {stats.get('propostas_salvas', 0):,}")
+    log.info(f"  Erros:                {stats.get('erros', 0):,}")
+    log.info(f"  Total no banco:       {db_stats.get('leilao_resultados', 0):,}")
+    log.info("=" * 60)
+
+
+# ------------------------------------------------------------------ #
 # Entry point
 # ------------------------------------------------------------------ #
 
@@ -448,8 +485,8 @@ if __name__ == "__main__":
         sys.exit(run(fase1_only=True))
     elif "--coleta" in args:
         sys.exit(run_coleta())
-    elif "--fase3" in args:
-        # Apenas Fase 3 (requer sessão salva da Fase 2)
+    elif "--fase3" in args or "--fase4" in args:
+        # Fase 3 e/ou Fase 4 standalone (requer sessão salva)
         with sync_playwright() as playwright:
             browser = playwright.chromium.launch(
                 headless=HEADLESS,
@@ -468,7 +505,10 @@ if __name__ == "__main__":
             auth.ensure_authenticated(page)
             limit_str = next((a.split("=")[1] for a in args if a.startswith("--limit=")), None)
             limit = int(limit_str) if limit_str else None
-            _run_fase3_with_context(context, limit=limit)
+            if "--fase3" in args:
+                _run_fase3_with_context(context, limit=limit)
+            if "--fase4" in args:
+                _run_fase4_with_context(context, limit=limit)
             context.close()
             browser.close()
     else:

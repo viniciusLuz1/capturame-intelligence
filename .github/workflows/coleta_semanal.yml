@@ -45,6 +45,14 @@ jobs:
           TIMEOUT: "30000"
         run: python main.py --fase3
 
+      - name: Fase 4 — Coletar resultados e vencedores
+        env:
+          CAPTURAME_USER: ${{ secrets.CAPTURAME_USER }}
+          CAPTURAME_PASSWORD: ${{ secrets.CAPTURAME_PASSWORD }}
+          HEADLESS: "true"
+          TIMEOUT: "30000"
+        run: python main.py --fase4
+
       - name: Gerar dashboard
         run: python scripts/gerar_dashboard.py
 
