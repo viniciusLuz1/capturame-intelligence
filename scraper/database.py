@@ -248,11 +248,14 @@ class DatabaseManager:
         ))
 
     def get_leiloes_fechados_sem_resultado(self) -> list:
-        """Retorna leilões fechados que ainda não têm resultado coletado."""
+        """Retorna leilões fechados com itens que ainda não têm resultado coletado."""
         return self.conn.execute("""
             SELECT l.id_externo, l.code
             FROM leiloes l
             WHERE l.status = 'close'
+              AND EXISTS (
+                SELECT 1 FROM leilao_itens li WHERE li.leilao_id = l.id_externo
+              )
               AND NOT EXISTS (
                 SELECT 1 FROM leilao_resultados r WHERE r.leilao_id = l.id_externo
               )
